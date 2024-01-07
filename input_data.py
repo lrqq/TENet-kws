@@ -17,7 +17,7 @@ def _gen_random_from_zero(maxval, dtype=tf.float32):
 def _gen_empty_audio(desired_samples):
     return tf.zeros([desired_samples, 1], dtype=tf.float32)
 
-
+# 音频加入背景噪声
 def _mix_background(
         audio,
         desired_samples,
@@ -63,6 +63,7 @@ def _mix_background(
 
 
 def _shift_audio(audio, desired_samples, shift_ratio):
+    print(tf.size(audio))
     time_shift = int(desired_samples * shift_ratio)
     time_shift_amount = tf.random.uniform(
         [],
@@ -113,7 +114,7 @@ def _load_wav_file(filename, desired_samples=-1):
 
     return wav_decoder.audio
 
-
+# 对于每个验证集样本的处理
 def anchored_slice_or_pad(
         filename,
         desired_samples,
@@ -134,7 +135,7 @@ def anchored_slice_or_pad(
 
     return audio
 
-
+# 对于每个训练样本的处理
 def anchored_slice_or_pad_with_shift(
         filename,
         desired_samples,
@@ -184,6 +185,7 @@ class AudioWrapper:
                               word in enumerate(self.prepare_words_list)}
 
         # prepare background data
+        # background_max_volume = 0.1 background_frequency = 0.8
         self.background_max_volume = tf.constant(
             self.args.background_max_volume)
         self.background_frequency = tf.constant(self.args.background_frequency)
@@ -245,6 +247,7 @@ class AudioWrapper:
 
         return list(df['file']), list(df['index_label'])
 
+    # 每个样本都会调用这个函数进行预处理
     def _parse_function(self, filename, label):
         augmented_audio = self.augment_audio(
             filename,
@@ -257,7 +260,7 @@ class AudioWrapper:
         )
 
         return augmented_audio, label
-
+    # 对于训练集和验证集，每个样本的处理是不同的
     def augment_audio(self, filename, desired_samples, sample_rate, **kwargs):
         if self.is_training:
             return anchored_slice_or_pad_with_shift(filename, desired_samples, sample_rate, **kwargs)

@@ -30,7 +30,7 @@ def tenet(inputs, num_classes, n_channels, n_strides, n_ratios, n_layers, kernel
     assert len(n_channels) == len(n_strides) + 1
 
     with tf.compat.v1.variable_scope(scope):
-        inputs = tf.reshape(inputs, [-1, L, 1, C])  # [N, L, 1, C]
+        inputs = tf.reshape(inputs, [-1, L, 1, C], name = "inputaaa")  # [N, L, 1, C]
         first_conv_kernel = [3, 1]
         conv_kernel = [9, 1]
 

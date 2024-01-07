@@ -38,7 +38,7 @@ def arg_config():
 
 # dataset
     parser.add_argument('--dataset_path', type=str,
-                        default='../dataset_v1', help="Where the speech training data.")
+                        default='dataset_v1', help="Where the speech training data.")
     parser.add_argument('--split_dir', type=str,
                         default='configs/v1', help="the dir of the split file.")
 
@@ -47,7 +47,7 @@ def arg_config():
                         help='How many training steps to run',)
     parser.add_argument('-b', '--batch_size', type=int, default=100,
                         help='How many items to train with at once',)
-    parser.add_argument("--buffer_size", default=1000, type=int)
+    parser.add_argument("--buffer_size", default=300, type=int)
     parser.add_argument('-j', '--workers', default=8, type=int, metavar='N',
                         help='number of data loading workers (default: 8)')
     parser.add_argument("--step_save_checkpoint", default=1000, type=int)
@@ -68,12 +68,12 @@ def arg_config():
 
 # save or checkpoint
     parser.add_argument('--input_file', type=str, default='')
-    parser.add_argument('--save_folder', type=str, default='save/tenet12/',
+    parser.add_argument('--save_folder', type=str, default='save/tenet6/',
                         help='Directory to write event logs and checkpoint.')
     parser.add_argument('--checkpoint_path', type=str, default=None)
 
 # model
-    parser.add_argument("--arch", default="TENet12Model",
+    parser.add_argument("--arch", default="TENet6Model",
                         choices=models._available_nets, type=str)
     parser.add_argument('--dropout', type=float, default=0.5,
                         help='Percentage of data dropped',)
